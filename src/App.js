@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SignIn from './components/Login';
+import Note from './components/notes/Note';
+import {Route,Switch, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-function App() {
+function App(props) {
+  
+  let routes = (
+    <Switch>
+      <Route path='/' component={SignIn} exact/>
+      {props.auth.isAuth && (
+        <Route path='/notes' component={Note} exact/>
+      )}
+    </Switch>
+  );
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {routes}
+      {props.auth.isAuth && (
+        <Redirect to="/notes" />
+      )}
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auth:state.auth
+  }
+}
+
+export default connect(mapStateToProps)(App);
