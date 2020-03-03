@@ -10,7 +10,6 @@ import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import {isAuthenticated} from '../actions/auth';
 
-
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -46,7 +45,7 @@ function SignIn(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    fetch('validUsers.json')
+    fetch('Notes-App/validUsers.json')
       .then(res => res.json())
       .then(response => {
         const user = response.users[0];

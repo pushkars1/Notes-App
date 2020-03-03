@@ -9,9 +9,9 @@ function App(props) {
   
   let routes = (
     <Switch>
-      <Route path='/' component={SignIn} exact/>
+      <Route path='/Notes-App' component={SignIn} exact/>
       {props.auth.isAuth && (
-        <Route path='/notes' component={Note} exact/>
+        <Route path='/Notes-App/notes' component={Note} exact/>
       )}
     </Switch>
   );
@@ -19,7 +19,7 @@ function App(props) {
     <div className="App">
       {routes}
       {props.auth.isAuth && (
-        <Redirect to="/notes" />
+        <Redirect to="/Notes-App/notes" />
       )}
     </div>
   );
