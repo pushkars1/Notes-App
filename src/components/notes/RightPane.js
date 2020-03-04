@@ -1,4 +1,4 @@
-import React, {useState}  from "react";
+import React, {useState, useRef}  from "react";
 import uuid from 'react-uuid';
 import {connect} from 'react-redux';
 import {addNote} from '../../actions/notes';
@@ -45,6 +45,8 @@ const useStyles = makeStyles({
 const RightPane =  (props) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const titleRef = useRef();
+    const bodyRef = useRef();
 
     const setTitleHandler = (event) => {
         setTitle(event.target.value)
@@ -55,7 +57,8 @@ const RightPane =  (props) => {
     }
 
     const addNoteBtnHandler = () => {
-        props.onAddNote(uuid(), title, body);
+        titleRef.current.value = '';
+        bodyRef.current.value = '';
     }
 
     return (
@@ -70,22 +73,24 @@ const RightPane =  (props) => {
             </Button>
             <div className={useStyles().clear} />
             <InputLabel htmlFor="title" className={useStyles().titleAndBody}>Title:</InputLabel>
-            <FormControl fullWidth variant="outlined" className={useStyles().formControl}>
+            <FormControl fullWidth variant="outlined" className={useStyles().formControl} >
                 <OutlinedInput
                 id="title"
                 value={props.note.note ? props.note.note.title: title}
                 onChange={setTitleHandler}
+                inputRef={titleRef}
+                
                 />
             </FormControl>
             <InputLabel htmlFor="body" className={useStyles().titleAndBody}>Body:</InputLabel>
-            <TextareaAutosize id="body" className={useStyles().textArea} rowsMin={11} value={props.note.note ? props.note.note.body: body} onChange={setBodyHandler}/>
+            <TextareaAutosize id="body" className={useStyles().textArea} rowsMin={11} value={props.note.note ? props.note.note.body: body} onChange={setBodyHandler} ref={bodyRef}/>
             <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 className={useStyles().save}
                 startIcon={<SaveIcon />}
-                onClick={() => props.onUpdateNote(props.note.id, title, body)}
+                onClick={() => props.onAddNote(uuid(), title, body)}
             >
                 Save
             </Button>

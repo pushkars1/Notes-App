@@ -30,14 +30,14 @@ const reducer = (state=initialState, action) => {
             }
         case 'UPDATENOTE':
             const noteIndex = state.notes.findIndex(note => note.id === action.payload.id);
-            if(state.notes[noteIndex].title !== action.payload.title){
-                state.notes[noteIndex].title = action.payload.title
-            }  
-            if(state.notes[noteIndex].body !== action.payload.body){
-                state.notes[noteIndex].body = action.payload.body;
+            const updatedNotes = [...state.notes];
+            if(updatedNotes[noteIndex].title !== action.payload.title || updatedNotes[noteIndex].body!==action.payload.body){
+                updatedNotes[noteIndex].title = action.payload.title; 
+                updatedNotes[noteIndex].body = action.payload.body;
             }
             return {
                 ...state,
+                notes : updatedNotes,
                 id: null
             }
         default: return state
